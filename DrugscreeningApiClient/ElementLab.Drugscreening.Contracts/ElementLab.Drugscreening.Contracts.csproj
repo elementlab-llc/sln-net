@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6101407F-CEBC-48AF-B8EA-6D8F575C6338}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ElementLab</RootNamespace>
+    <AssemblyName>ElementLab.Drugscreening.Contracts</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Drugscreening\Contracts\AdministrationMode.cs" />
+    <Compile Include="Drugscreening\Contracts\AdministrationSchedule.cs" />
+    <Compile Include="Drugscreening\Contracts\AgeContraindication.cs" />
+    <Compile Include="Drugscreening\Contracts\AllergenClass.cs" />
+    <Compile Include="Drugscreening\Contracts\AllergicReaction.cs" />
+    <Compile Include="Drugscreening\Contracts\Allergy.cs" />
+    <Compile Include="Drugscreening\Contracts\ClientCredentials.cs" />
+    <Compile Include="Drugscreening\Contracts\CodedValue.cs" />
+    <Compile Include="Drugscreening\Contracts\CodedValueWithLevel.cs" />
+    <Compile Include="Drugscreening\Contracts\CompetitionPeriod.cs" />
+    <Compile Include="Drugscreening\Contracts\Concept.cs" />
+    <Compile Include="Drugscreening\Contracts\ConceptInfo.cs" />
+    <Compile Include="Drugscreening\Contracts\ConceptType.cs" />
+    <Compile Include="Drugscreening\Contracts\Condition.cs" />
+    <Compile Include="Drugscreening\Contracts\Contraindication.cs" />
+    <Compile Include="Drugscreening\Contracts\ContraindicationSeverityLevel.cs" />
+    <Compile Include="Drugscreening\Contracts\CreatedToken.cs" />
+    <Compile Include="Drugscreening\Contracts\ResultsCollection.cs" />
+    <Compile Include="Drugscreening\Contracts\Disease.cs" />
+    <Compile Include="Drugscreening\Contracts\DiseaseContraindication.cs" />
+    <Compile Include="Drugscreening\Contracts\DopingAlert.cs" />
+    <Compile Include="Drugscreening\Contracts\DopingAlertsCollection.cs" />
+    <Compile Include="Drugscreening\Contracts\DopingAlertsOptions.cs" />
+    <Compile Include="Drugscreening\Contracts\DrugDose.cs" />
+    <Compile Include="Drugscreening\Contracts\DoseFrequency.cs" />
+    <Compile Include="Drugscreening\Contracts\DoseType.cs" />
+    <Compile Include="Drugscreening\Contracts\Drug.cs" />
+    <Compile Include="Drugscreening\Contracts\DuplicateTherapy.cs" />
+    <Compile Include="Drugscreening\Contracts\Duration.cs" />
+    <Compile Include="Drugscreening\Contracts\FoundConceptInfo.cs" />
+    <Compile Include="Drugscreening\Contracts\Gender.cs" />
+    <Compile Include="Drugscreening\Contracts\GenderContraindication.cs" />
+    <Compile Include="Drugscreening\Contracts\GeneticTest.cs" />
+    <Compile Include="Drugscreening\Contracts\Immunosuppression.cs" />
+    <Compile Include="Drugscreening\Contracts\ImmunosuppressionEffect.cs" />
+    <Compile Include="Drugscreening\Contracts\ImmunosuppressionSeverityLevel.cs" />
+    <Compile Include="Drugscreening\Contracts\Instruction.cs" />
+    <Compile Include="Drugscreening\Contracts\InstructionContent.cs" />
+    <Compile Include="Drugscreening\Contracts\Interaction.cs" />
+    <Compile Include="Drugscreening\Contracts\InteractionDocumentationLevel.cs" />
+    <Compile Include="Drugscreening\Contracts\InteractionManagementLevel.cs" />
+    <Compile Include="Drugscreening\Contracts\InteractionOnset.cs" />
+    <Compile Include="Drugscreening\Contracts\InteractionSeverityLevel.cs" />
+    <Compile Include="Drugscreening\Contracts\LactationContraindication.cs" />
+    <Compile Include="Drugscreening\Contracts\Measurement.cs" />
+    <Compile Include="Drugscreening\Contracts\Message.cs" />
+    <Compile Include="Drugscreening\Contracts\MessageKind.cs" />
+    <Compile Include="Drugscreening\Contracts\Patient.cs" />
+    <Compile Include="Drugscreening\Contracts\PatientResult.cs" />
+    <Compile Include="Drugscreening\Contracts\PatientSport.cs" />
+    <Compile Include="Drugscreening\Contracts\PregnancyContraindication.cs" />
+    <Compile Include="Drugscreening\Contracts\RenalFunction.cs" />
+    <Compile Include="Drugscreening\Contracts\RoleInSports.cs" />
+    <Compile Include="Drugscreening\Contracts\ScreenableConcept.cs" />
+    <Compile Include="Drugscreening\Contracts\ScreenableCondition.cs" />
+    <Compile Include="Drugscreening\Contracts\ScreenableIngredient.cs" />
+    <Compile Include="Drugscreening\Contracts\ScreeningOptions.cs" />
+    <Compile Include="Drugscreening\Contracts\ScreeningSummary.cs" />
+    <Compile Include="Drugscreening\Contracts\RxScreeningTypes.cs" />
+    <Compile Include="Drugscreening\Contracts\ScreenRequest.cs" />
+    <Compile Include="Drugscreening\Contracts\SearchMethod.cs" />
+    <Compile Include="Drugscreening\Contracts\SearchScope.cs" />
+    <Compile Include="Drugscreening\Contracts\Sport.cs" />
+    <Compile Include="Drugscreening\Contracts\Unit.cs" />
+    <Compile Include="Drugscreening\Contracts\UnitMeasurement.cs" />
+    <Compile Include="Drugscreening\Contracts\UnitType.cs" />
+    <Compile Include="Drugscreening\Contracts\WadaListReference.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
