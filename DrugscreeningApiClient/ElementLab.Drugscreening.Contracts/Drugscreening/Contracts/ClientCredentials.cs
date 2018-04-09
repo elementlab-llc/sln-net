@@ -1,7 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿// **********************************************************************************************\
+// Module Name:  ClientCredentials.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
 namespace ElementLab.Drugscreening.Contracts
 {
     /// <summary>
@@ -14,21 +21,6 @@ namespace ElementLab.Drugscreening.Contracts
     public class ClientCredentials
     {
         /// <summary>
-        /// Идентификатор пользователя сервиса (логин)
-        /// </summary>
-        /// <summary lang="en">
-        /// Client Identifier (login)
-        /// </summary>
-        public string ClientId { get; }
-        /// <summary>
-        /// Секретный ключ, соответствующий идентификатору пользователя (пароль)
-        /// </summary>
-        /// <summary lang="en">
-        /// Secret key (password)
-        /// </summary>
-        public string ClientSecret { get; }
-
-        /// <summary>
         /// Инициализирует экземпляр класса ClientCredentials
         /// </summary>
         /// <param name="clientId"></param>
@@ -38,5 +30,21 @@ namespace ElementLab.Drugscreening.Contracts
             ClientId = clientId;
             ClientSecret = clientSecret;
         }
+
+        /// <summary>
+        /// Идентификатор пользователя сервиса (логин)
+        /// </summary>
+        /// <summary lang="en">
+        /// Client Identifier (login)
+        /// </summary>
+        public string ClientId { get; }
+
+        /// <summary>
+        /// Секретный ключ, соответствующий идентификатору пользователя (пароль)
+        /// </summary>
+        /// <summary lang="en">
+        /// Secret key (password)
+        /// </summary>
+        public string ClientSecret { get; }
     }
 }

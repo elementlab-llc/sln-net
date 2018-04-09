@@ -1,7 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿// **********************************************************************************************\
+// Module Name:  AgeContraindication.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
 namespace ElementLab.Drugscreening.Contracts
 {
     /// <summary>
@@ -10,7 +17,6 @@ namespace ElementLab.Drugscreening.Contracts
     /// <summary lang="en">
     /// Describes age contraindication for drug
     /// </summary>
-    
     public class AgeContraindication : Contraindication
     {
         /// <summary>
@@ -20,6 +26,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Beginning age for the contraindication.
         /// </summary>
         public Duration AgeLow { get; set; }
+
         /// <summary>
         /// Верхняя граница возраста
         /// </summary>

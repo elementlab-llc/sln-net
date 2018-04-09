@@ -1,5 +1,16 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿// **********************************************************************************************\
+// Module Name:  AssemblyInfo.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
+
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following

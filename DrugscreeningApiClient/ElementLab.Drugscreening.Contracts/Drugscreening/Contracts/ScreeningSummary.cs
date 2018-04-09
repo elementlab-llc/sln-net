@@ -1,7 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
+// **********************************************************************************************\
+// Module Name:  ScreeningSummary.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
 namespace ElementLab.Drugscreening.Contracts
 {
     /// <summary>
@@ -20,6 +27,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Globally unique identifier of the results.
         /// </summary>
         public string Id { get; set; }
+
         /// <summary>
         /// Список сообщений, относящихся ко всем выполненным видам скрининга.
         /// </summary>
@@ -27,6 +35,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Messages related to all of the processed screenings.
         /// </summary>
         public Message[] Messages { get; set; }
+
         /// <summary>
         /// Обнаруженные взаимодействия между лекарственными средствами.
         /// </summary>
@@ -34,6 +43,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Interactions between input drugs.
         /// </summary>
         public ResultsCollection<Interaction> DrugDrugInteractions { get; set; }
+
         /// <summary>
         /// Обнаруженные взаимодействия между лекарственными средствами и пищей.
         /// </summary>
@@ -41,6 +51,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Interactions between input drugs and food.
         /// </summary>
         public ResultsCollection<Interaction> DrugFoodInteractions { get; set; }
+
         /// <summary>
         /// Обнаруженные взаимодействия между лекарственными средствами и алкоголем.
         /// </summary>
@@ -48,6 +59,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Interactions between input drugs and alcohol.
         /// </summary>
         public ResultsCollection<Interaction> DrugAlcoholInteractions { get; set; }
+
         /// <summary>
         /// Обнаруженные аллергические реакции.
         /// </summary>
@@ -55,6 +67,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Allergic reactions.
         /// </summary>
         public ResultsCollection<AllergicReaction> AllergicReactions { get; set; }
+
         /// <summary>
         /// Обнаруженные противопоказания по возрастным характеристикам.
         /// </summary>
@@ -62,6 +75,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Contraindications between input drugs and patient's age
         /// </summary>
         public ResultsCollection<AgeContraindication> AgeContraindications { get; set; }
+
         /// <summary>
         /// Обнаруженные противопоказания по половой принадлежности.
         /// </summary>
@@ -69,6 +83,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Contraindications between input drugs and patient's gender.
         /// </summary>
         public ResultsCollection<GenderContraindication> GenderContraindications { get; set; }
+
         /// <summary>
         /// Обнаруженные противопоказания при лактации.
         /// </summary>
@@ -76,6 +91,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Contraindications between input drugs and lactation.
         /// </summary>
         public ResultsCollection<LactationContraindication> LactationContraindications { get; set; }
+
         /// <summary>
         /// Обнаруженные противопоказания при беременности.
         /// </summary>
@@ -83,6 +99,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Contraindications between input drugs and pregnancy.
         /// </summary>
         public ResultsCollection<PregnancyContraindication> PregnancyContraindications { get; set; }
+
         /// <summary>
         /// Обнаруженные противопоказания к диагнозам.
         /// </summary>
@@ -90,6 +107,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Contraindications between input drugs and diseases.
         /// </summary>
         public ResultsCollection<DiseaseContraindication> DiseaseContraindications { get; set; }
+
         /// <summary>
         /// Обнаруженные дублирования терапии.
         /// </summary>
@@ -97,6 +115,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Duplicate therapies.
         /// </summary>
         public ResultsCollection<DuplicateTherapy> DuplicateTherapies { get; set; }
+
         /// <summary>
         /// Обнаруженные предупреждения, связанные с допинг-контролем.
         /// </summary>
@@ -104,6 +123,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Doping alerts.
         /// </summary>
         public ResultsCollection<DopingAlert> DopingAlerts { get; set; }
+
         /// <summary>
         /// Обнаруженные предупреждения о необходимости фармакогенетического тестирования.
         /// </summary>
@@ -111,5 +131,13 @@ namespace ElementLab.Drugscreening.Contracts
         /// Pharmacogenetic testing recommendations.
         /// </summary>
         public ResultsCollection<GeneticTest> GeneticTests { get; set; }
+
+        /// <summary>
+        /// Обнаруженные предупреждения, связанные с иммуносупрессорным эффектом.
+        /// </summary>
+        /// <summary lang="en">
+        /// Immunosuppression alerts.
+        /// </summary>
+        public ResultsCollection<Immunosuppression> Immunosuppressions { get; set; }
     }
 }

@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Drugscreening\Contracts\AdministrationMode.cs" />
     <Compile Include="Drugscreening\Contracts\AdministrationSchedule.cs" />
     <Compile Include="Drugscreening\Contracts\AgeContraindication.cs" />
     <Compile Include="Drugscreening\Contracts\AllergenClass.cs" />
@@ -57,15 +56,15 @@
     <Compile Include="Drugscreening\Contracts\Contraindication.cs" />
     <Compile Include="Drugscreening\Contracts\ContraindicationSeverityLevel.cs" />
     <Compile Include="Drugscreening\Contracts\CreatedToken.cs" />
+    <Compile Include="Drugscreening\Contracts\DopingAlertSeverityLevel.cs" />
+    <Compile Include="Drugscreening\Contracts\GeneticTestSeverityLevel.cs" />
+    <Compile Include="Drugscreening\Contracts\PatientResult.cs" />
     <Compile Include="Drugscreening\Contracts\ResultsCollection.cs" />
     <Compile Include="Drugscreening\Contracts\Disease.cs" />
     <Compile Include="Drugscreening\Contracts\DiseaseContraindication.cs" />
     <Compile Include="Drugscreening\Contracts\DopingAlert.cs" />
     <Compile Include="Drugscreening\Contracts\DopingAlertsCollection.cs" />
     <Compile Include="Drugscreening\Contracts\DopingAlertsOptions.cs" />
-    <Compile Include="Drugscreening\Contracts\DrugDose.cs" />
-    <Compile Include="Drugscreening\Contracts\DoseFrequency.cs" />
-    <Compile Include="Drugscreening\Contracts\DoseType.cs" />
     <Compile Include="Drugscreening\Contracts\Drug.cs" />
     <Compile Include="Drugscreening\Contracts\DuplicateTherapy.cs" />
     <Compile Include="Drugscreening\Contracts\Duration.cs" />
@@ -84,28 +83,23 @@
     <Compile Include="Drugscreening\Contracts\InteractionOnset.cs" />
     <Compile Include="Drugscreening\Contracts\InteractionSeverityLevel.cs" />
     <Compile Include="Drugscreening\Contracts\LactationContraindication.cs" />
-    <Compile Include="Drugscreening\Contracts\Measurement.cs" />
     <Compile Include="Drugscreening\Contracts\Message.cs" />
     <Compile Include="Drugscreening\Contracts\MessageKind.cs" />
     <Compile Include="Drugscreening\Contracts\Patient.cs" />
-    <Compile Include="Drugscreening\Contracts\PatientResult.cs" />
+    <Compile Include="Drugscreening\Contracts\ProfessionalResult.cs" />
     <Compile Include="Drugscreening\Contracts\PatientSport.cs" />
     <Compile Include="Drugscreening\Contracts\PregnancyContraindication.cs" />
-    <Compile Include="Drugscreening\Contracts\RenalFunction.cs" />
     <Compile Include="Drugscreening\Contracts\RoleInSports.cs" />
     <Compile Include="Drugscreening\Contracts\ScreenableConcept.cs" />
     <Compile Include="Drugscreening\Contracts\ScreenableCondition.cs" />
     <Compile Include="Drugscreening\Contracts\ScreenableIngredient.cs" />
     <Compile Include="Drugscreening\Contracts\ScreeningOptions.cs" />
     <Compile Include="Drugscreening\Contracts\ScreeningSummary.cs" />
-    <Compile Include="Drugscreening\Contracts\RxScreeningTypes.cs" />
+    <Compile Include="Drugscreening\Contracts\ScreeningType.cs" />
     <Compile Include="Drugscreening\Contracts\ScreenRequest.cs" />
     <Compile Include="Drugscreening\Contracts\SearchMethod.cs" />
     <Compile Include="Drugscreening\Contracts\SearchScope.cs" />
     <Compile Include="Drugscreening\Contracts\Sport.cs" />
-    <Compile Include="Drugscreening\Contracts\Unit.cs" />
-    <Compile Include="Drugscreening\Contracts\UnitMeasurement.cs" />
-    <Compile Include="Drugscreening\Contracts\UnitType.cs" />
     <Compile Include="Drugscreening\Contracts\WadaListReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,7 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿// **********************************************************************************************\
+// Module Name:  WadaListReference.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
 namespace ElementLab.Drugscreening.Contracts
 {
     /// <summary>
@@ -21,6 +28,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// </summary>
         
         public string Code { get; set; }
+
         /// <summary>
         /// Название.
         /// </summary>
@@ -28,6 +36,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Name
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// Ссылка на список WADA
         /// </summary>

@@ -1,6 +1,16 @@
-﻿using System;
+﻿// **********************************************************************************************\
+// Module Name:  DopingAlert.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
+
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ElementLab.Drugscreening.Contracts
 {
@@ -11,7 +21,7 @@ namespace ElementLab.Drugscreening.Contracts
     /// Describes the result of doping-alert screening.
     /// </summary>
     
-    public class DopingAlert : PatientResult
+    public class DopingAlert : ProfessionalResult
     {
         /// <summary>
         /// Код класса предупреждения.
@@ -20,6 +30,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Code alert class
         /// </summary>
         public string AlertClass { get; set; }
+
         /// <summary>
         /// Тип предупреждения.
         /// </summary>
@@ -28,6 +39,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// </summary>
         
         public string Kind { get; set; }
+
         /// <summary>
         /// Уровень риска.
         /// </summary>
@@ -35,7 +47,8 @@ namespace ElementLab.Drugscreening.Contracts
         /// Severity level
         /// </summary>
         
-        public CodedValueWithLevel Severity { get; set; }
+        public DopingAlertSeverityLevel Severity { get; set; }
+
         /// <summary>
         /// Субстанция, вызывающая положительный результат при допинг-контроле.
         /// </summary>
@@ -43,18 +56,22 @@ namespace ElementLab.Drugscreening.Contracts
         /// Substance
         /// </summary>
         public Concept Substance { get; set; }
+
         /// <summary>
         /// Список видов спорта, для которых запрещено использование субстанции и содержащих её препаратов.
         /// </summary>
         public ICollection<Concept> Sports { get; set; }
+
         /// <summary>
         /// true, если использование субстанции разрешено во внесоревновательный период.
         /// </summary>
         public bool AllowedOutOfCompetition { get; set; }
+
         /// <summary>
         /// true, если использование субстанции разрешено женщинам.
         /// </summary>
         public bool AllowedForFemales { get; set; }
+
         /// <summary>
         /// Описание раздела списка ВАДА
         /// </summary>

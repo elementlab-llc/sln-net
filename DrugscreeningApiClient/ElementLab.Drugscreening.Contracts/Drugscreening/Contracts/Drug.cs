@@ -1,7 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿// **********************************************************************************************\
+// Module Name:  Drug.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
 namespace ElementLab.Drugscreening.Contracts
 {
     /// <summary>
@@ -54,10 +61,10 @@ namespace ElementLab.Drugscreening.Contracts
     public class Drug : ScreenableConcept
     {
         /// <summary>
-        /// Схема приема лекарственного средства
+        /// Схема приема лекарственного средства. Может быть null.
         /// </summary>
         /// <summary lang="en">
-        /// Definition of the drug administration schedule
+        /// Definition of the drug administration schedule. May be null.
         /// </summary>
         public AdministrationSchedule Schedule { get; set; }
     }

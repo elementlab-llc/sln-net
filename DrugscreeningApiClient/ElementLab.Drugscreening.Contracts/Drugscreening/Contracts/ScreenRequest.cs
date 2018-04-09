@@ -1,6 +1,16 @@
-﻿using System;
+﻿// **********************************************************************************************\
+// Module Name:  ScreenRequest.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
+
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ElementLab.Drugscreening.Contracts
 {
@@ -10,38 +20,29 @@ namespace ElementLab.Drugscreening.Contracts
     /// <summary lang="en">
     /// Contains data for screening
     /// </summary>
-    
+
     public class ScreenRequest
     {
-        const RxScreeningTypes ContraindicationScreenings = RxScreeningTypes.AgeContraindications
-                                                            | RxScreeningTypes.AllergicReactions
-                                                            | RxScreeningTypes.DiseaseContraindications
-                                                            | RxScreeningTypes.DrugAlcoholInteractions
-                                                            | RxScreeningTypes.DrugDrugInteractions
-                                                            | RxScreeningTypes.DrugFoodInteractions
-                                                            | RxScreeningTypes.DuplicateTherapy
-                                                            | RxScreeningTypes.GenderContraindications
-                                                            | RxScreeningTypes.LactationContraindications
-                                                            | RxScreeningTypes.PregnancyContraindications;
+        const ScreeningType ContraindicationScreenings = ScreeningType.AgeContraindications
+                                                         | ScreeningType.DiseaseContraindications
+                                                         | ScreeningType.GenderContraindications
+                                                         | ScreeningType.LactationContraindications
+                                                         | ScreeningType.PregnancyContraindications;
 
-        const RxScreeningTypes InteractionScreenings = RxScreeningTypes.DrugAlcoholInteractions
-                                                       | RxScreeningTypes.DrugDrugInteractions
-                                                       | RxScreeningTypes.DrugFoodInteractions;
+        const ScreeningType InteractionScreenings = ScreeningType.DrugAlcoholInteractions
+                                                       | ScreeningType.DrugDrugInteractions
+                                                       | ScreeningType.DrugFoodInteractions;
 
-        const RxScreeningTypes AllScreenings = InteractionScreenings
+        const ScreeningType AllScreenings = InteractionScreenings
                                                | ContraindicationScreenings
-                                               | RxScreeningTypes.AllergicReactions
-                                               | RxScreeningTypes.DuplicateTherapy
-                                               | RxScreeningTypes.DopingAlerts
-                                               | RxScreeningTypes.GeneticTesting
-#if DEBUG || DEV
-                                               | RxScreeningTypes.Dosing
-                                               | RxScreeningTypes.Immunosuppression
-#endif
-                                               ;
+                                               | ScreeningType.AllergicReactions
+                                               | ScreeningType.DuplicateTherapy
+                                               | ScreeningType.DopingAlerts
+                                               | ScreeningType.GeneticTesting;
 
-        RxScreeningTypes _screeningTypes = AllScreenings;
         ScreeningOptions _options;
+
+        ScreeningType _screeningTypes = AllScreenings;
 
         /// <summary>
         /// Виды скринингов, которые необходимо выполнить
@@ -49,11 +50,12 @@ namespace ElementLab.Drugscreening.Contracts
         /// <summary lang="en">
         /// Screening types to execute
         /// </summary>
-        public RxScreeningTypes ScreeningTypes
+        public ScreeningType ScreeningTypes
         {
             get => _screeningTypes;
             set => _screeningTypes = value == 0 ? AllScreenings : value;
         }
+
         /// <summary>
         /// Общая информация о пациенте.
         /// </summary>
@@ -61,6 +63,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Information about patient
         /// </summary>
         public Patient Patient { get; set; }
+
         /// <summary>
         /// Перечень назначенных лекарственных средств
         /// </summary>
@@ -68,6 +71,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// List of prescribed drugs
         /// </summary>
         public List<Drug> Drugs { get; set; }
+
         /// <summary>
         /// Перечень известных аллергий, имеющихся у пациента.
         /// </summary>
@@ -75,13 +79,15 @@ namespace ElementLab.Drugscreening.Contracts
         /// List of known allergies for this patient
         /// </summary>
         public List<Allergy> Allergies { get; set; }
+
         /// <summary>
-        /// Список диагнозов, поставленных пациенту.
+        /// Список заболеваний, имеющихся у пациента.
         /// </summary>
         /// <summary lang="en">
         /// List of diseases for this patient
         /// </summary>
         public List<Disease> Diseases { get; set; }
+
         /// <summary>
         /// Параметры для более тонкой настройки процесса выполнения скрининга.
         /// </summary>

@@ -1,6 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// **********************************************************************************************\
+// Module Name:  ScreeningType.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
+
+using System;
 
 namespace ElementLab.Drugscreening.Contracts
 {
@@ -11,8 +21,7 @@ namespace ElementLab.Drugscreening.Contracts
     /// Types of the screenings.
     /// </summary>
     [Flags]
-    
-    public enum RxScreeningTypes
+    public enum ScreeningType
     {
         /// <summary>
         /// Скрининг взаимодействий лекарственных средств друг с другом.
@@ -99,17 +108,8 @@ namespace ElementLab.Drugscreening.Contracts
         /// </summary>
         GeneticTesting = 2048,
         /// <summary>
-        /// Дозирование (предварительная ознакомительная версия, не используйте)
-        /// </summary>
-        /// <summary lang="en">
-        /// Dosing alerts for drugs (early preview version, do not use)
-        /// </summary>
-        Dosing = 4096,
-        /// <summary>
-        /// Иммуносупрессия (в разработке, не используйте)
+        /// Иммуносупрессия (в разработке, доступен только на тестовом сервере)
         /// </summary>
         Immunosuppression = 8192
-#if DEV || DEBUG
-#endif
     }
 }

@@ -1,13 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// **********************************************************************************************\
+// Module Name:  TraceSourceExtensions.cs
+// Project:      ElementLab.Drugscreening.Client 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
+
+using System;
 using System.Diagnostics;
-using System.Linq;
-using Json = Newtonsoft.Json;
 
 namespace ElementLab
 {
     internal static class TraceSourceExtensions
     {
+        static readonly Newtonsoft.Json.JsonSerializerSettings _serializationSettings = new Newtonsoft.Json.JsonSerializerSettings()
+        {
+            NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+            Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() },
+            DateFormatString = "yyyy-MM-dd",
+            DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local,
+            Formatting = Newtonsoft.Json.Formatting.None
+        };
+
         /// <summary>
         /// Записывает отладочное сообщение в журнал
         /// </summary>
@@ -76,7 +94,7 @@ namespace ElementLab
             }
             else
             {
-                var dataJson = Json.JsonConvert.SerializeObject(data, _serializationSettings);
+                var dataJson = Newtonsoft.Json.JsonConvert.SerializeObject(data, _serializationSettings);
                 source.TraceData(eventType, eventId, message, dataJson);
             }
         }
@@ -85,15 +103,6 @@ namespace ElementLab
         {
             return new MonitoredScope(source, message);
         }
-
-        static readonly Json.JsonSerializerSettings _serializationSettings = new Json.JsonSerializerSettings()
-        {
-            NullValueHandling = Json.NullValueHandling.Ignore,
-            Converters = { new Json.Converters.StringEnumConverter() },
-            DateFormatString = "yyyy-MM-dd",
-            DateTimeZoneHandling = Json.DateTimeZoneHandling.Local,
-            Formatting = Json.Formatting.None
-        };
 
         internal class MonitoredScope : IDisposable
         {
@@ -123,6 +132,5 @@ namespace ElementLab
                 GC.SuppressFinalize(this);
             }
         }
-
     }
 }

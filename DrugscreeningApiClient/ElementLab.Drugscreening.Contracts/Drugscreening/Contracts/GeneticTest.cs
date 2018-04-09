@@ -1,7 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿// **********************************************************************************************\
+// Module Name:  GeneticTest.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
 namespace ElementLab.Drugscreening.Contracts
 {
     /// <summary>
@@ -11,7 +18,7 @@ namespace ElementLab.Drugscreening.Contracts
     /// Used to define the pharmacogenetic testing recommendation.
     /// </summary>
     
-    public class GeneticTest : PatientResult
+    public class GeneticTest : ProfessionalResult
     {
         /// <summary>
         /// Уровень риска.
@@ -20,7 +27,8 @@ namespace ElementLab.Drugscreening.Contracts
         /// Severity level for this result.
         /// </summary>
         
-        public CodedValueWithLevel Severity { get; set; }
+        public GeneticTestSeverityLevel Severity { get; set; }
+
         /// <summary>
         /// Степень необходимого вмешательства.
         /// </summary>
@@ -28,6 +36,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Management level for this result.
         /// </summary>
         public CodedValueWithLevel Management { get; set; }
+
         /// <summary>
         /// Степень изученности.
         /// </summary>

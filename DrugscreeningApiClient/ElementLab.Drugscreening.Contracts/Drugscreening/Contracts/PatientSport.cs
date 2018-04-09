@@ -1,7 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿// **********************************************************************************************\
+// Module Name:  PatientSport.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
 namespace ElementLab.Drugscreening.Contracts
 {
     /// <summary>
@@ -17,6 +24,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Code of the sports.
         /// </summary>
         public string Code { get; set; }
+
         /// <summary>
         /// Наименование вида спорта.
         /// </summary>
@@ -24,6 +32,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Name of the sports.
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// Соревновательный период.
         /// </summary>
@@ -34,6 +43,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Period of the competitions.
         /// </summary>
         public CompetitionPeriod Period { get; set; }
+
         /// <summary>
         /// Код концепта RoleInSports, описывающий роль пациента в спорте (Спортсмен, Тренер и т.п.)
         /// </summary>

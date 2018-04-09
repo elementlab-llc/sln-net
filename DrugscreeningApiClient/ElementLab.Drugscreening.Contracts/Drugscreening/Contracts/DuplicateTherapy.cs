@@ -1,6 +1,16 @@
-﻿using System;
+﻿// **********************************************************************************************\
+// Module Name:  DuplicateTherapy.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
+
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ElementLab.Drugscreening.Contracts
 {
@@ -11,7 +21,7 @@ namespace ElementLab.Drugscreening.Contracts
     /// Defines result for duplicate therapy processing.
     /// </summary>
     
-    public class DuplicateTherapy : PatientResult
+    public class DuplicateTherapy : ProfessionalResult
     {
         /// <summary>
         /// Вид дупликативной терапии.
@@ -29,6 +39,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// </summary>
         
         public string Kind { get; set; }
+
         /// <summary>
         /// Класс АТХ, к которому относятся препараты, вызывающие дублирование. 
         /// Значение указывается для дупликативной терапии вида "DuplicateTherapyAtATCClass".
@@ -37,6 +48,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// ATC class related to this result if Kind is "DuplicateTherapyAtATCClass".
         /// </summary>
         public string ATCClass { get; set; }
+
         /// <summary>
         /// Ингредиенты, общие для лекарственных средств. Значение указывается для
         /// дупликативной терапии вида "DuplicateTherapyAtIngredient".
@@ -45,6 +57,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Common drug ingredients related to this result if Kind is "DuplicateTherapyAtIngredient"
         /// </summary>
         public ICollection<string> CommonIngredients { get; set; }
+
         /// <summary>
         /// Класс дупликативной терапии. Значение указывается 
         /// только для дупликативной терапии вида "DuplicateTherapyAtClass".

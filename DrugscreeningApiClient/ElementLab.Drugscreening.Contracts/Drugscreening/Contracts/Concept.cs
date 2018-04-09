@@ -1,7 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// **********************************************************************************************\
+// Module Name:  Concept.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
+
+using System;
 using System.Diagnostics;
-using System.Linq;
 
 namespace ElementLab.Drugscreening.Contracts
 {
@@ -23,6 +33,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// </summary>
         
         public string Type { get; set; }
+
         /// <summary>
         /// Код, идентифицирующий концепт.
         /// </summary>
@@ -33,6 +44,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// </summary>
         
         public string Code { get; set; }
+
         /// <summary>
         /// Наименование концепта.
         /// </summary>
@@ -41,5 +53,23 @@ namespace ElementLab.Drugscreening.Contracts
         /// </summary>
         
         public string Name { get; set; }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Concept otherConcept))
+                return false;
+
+            return string.Equals(Code, otherConcept.Code, StringComparison.OrdinalIgnoreCase)
+                   && string.Equals(Type, otherConcept.Type, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <inheritdoc/>
+        // ReSharper disable NonReadonlyMemberInGetHashCode
+        public override int GetHashCode()
+        {
+            return (Type + "/" + Code).GetHashCode();
+        }
+        // ReSharper restore NonReadonlyMemberInGetHashCode
     }
 }

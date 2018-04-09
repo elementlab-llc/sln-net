@@ -45,13 +45,22 @@
   <ItemGroup>
     <Compile Include="Drugscreening\Client\ApiArgumentException.cs" />
     <Compile Include="Drugscreening\Client\ApiClient.cs" />
+    <Compile Include="Drugscreening\Client\ApiConnection.cs" />
     <Compile Include="Drugscreening\Client\ApiException.cs" />
     <Compile Include="Drugscreening\Client\ApiInternalException.cs" />
     <Compile Include="Drugscreening\Client\ApiRedirectException.cs" />
     <Compile Include="Drugscreening\Client\ApiResourceNotFoundException.cs" />
     <Compile Include="Drugscreening\Client\ApiSecurityException.cs" />
+    <Compile Include="Drugscreening\Client\AsyncLock.cs" />
+    <Compile Include="Drugscreening\Client\AsyncSemaphore.cs" />
+    <Compile Include="Drugscreening\Client\ErrorInfo.cs" />
+    <Compile Include="Drugscreening\Client\IApiConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TraceSourceExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +71,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// **********************************************************************************************\
+// Module Name:  Patient.cs
+// Project:      ElementLab.Drugscreening.Contracts 
+// 
+// Copyright (c) Element Lab LLC
+// 
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// **********************************************************************************************/
+// 
+
+using System;
 
 namespace ElementLab.Drugscreening.Contracts
 {
@@ -26,6 +36,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Value may be required for certain screening types.
         /// </remarks>
         public DateTime? BirthDate { get; set; }
+
         /// <summary>
         /// Ожидаемая дата рождения (не обязательно).
         /// </summary>
@@ -33,6 +44,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Expected date of birth.
         /// </summary>
         public DateTime? ExpectedBirthDate { get; set; }
+
         /// <summary>
         /// Пол.
         /// </summary>
@@ -47,7 +59,14 @@ namespace ElementLab.Drugscreening.Contracts
         /// </remarks>
         public Gender Gender { get; set; }
 
-#if DEBUG || DEV
+        /// <summary>
+        /// Вид спорта, которым занимается пациент.
+        /// </summary>
+        /// <summary lang="en">
+        /// Sports related to the patient.
+        /// </summary>
+        public PatientSport Sport { get; set; }
+
         /// <summary>
         /// Масса тела. Значение указывается в килограммах.
         /// </summary>
@@ -61,6 +80,7 @@ namespace ElementLab.Drugscreening.Contracts
         /// Value may be required for certain screening types.
         /// </remarks>
         public decimal? Weight { get; set; }
+
         /// <summary>
         /// Площадь поверхности тела. Значение в квадратных метрах.
         /// </summary>
@@ -71,44 +91,5 @@ namespace ElementLab.Drugscreening.Contracts
         /// Value may be required for certain screening types.
         /// </remarks>
         public decimal? BodySurfaceArea { get; set; }
-        /// <summary>
-        /// Клиренс креатинина.
-        /// </summary>
-        /// <summary lang="en">
-        /// Creatinine clearance.
-        /// </summary>
-        /// <remarks lang="en">
-        /// Value may be required for certain screening types.
-        /// </remarks>
-        public RenalFunction CreatinineClearance { get; set; }
-        /// <summary>
-        /// Сывороточный креатинин.
-        /// </summary>
-        /// <summary lang="en">
-        /// Serum creatinine.
-        /// </summary>
-        /// <remarks lang="en">
-        /// Value may be required for certain screening types.
-        /// </remarks>
-        public RenalFunction SerumCreatinine { get; set; }
-        /// <summary>
-        /// Диурез.
-        /// </summary>
-        /// <summary lang="en">
-        /// Urine output.
-        /// </summary>
-        /// <remarks lang="en">
-        /// Value may be required for certain screening types.
-        /// </remarks>
-        public RenalFunction UrineOutput { get; set; }
-#endif
-        /// <summary>
-        /// Вид спорта, которым занимается пациент.
-        /// </summary>
-        /// <summary lang="en">
-        /// Sports related to the patient.
-        /// </summary>
-        public PatientSport Sport { get; set; }
-
     }
 }
