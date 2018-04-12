@@ -61,6 +61,33 @@ namespace ElementLab.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не указан код концепта.
+        /// </summary>
+        internal static string E_Missing_Concept_Code {
+            get {
+                return ResourceManager.GetString("E_Missing_Concept_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не указан тип концепта.
+        /// </summary>
+        internal static string E_Missing_Concept_Type {
+            get {
+                return ResourceManager.GetString("E_Missing_Concept_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не указан код инструкции.
+        /// </summary>
+        internal static string E_Missing_Instruction_Code {
+            get {
+                return ResourceManager.GetString("E_Missing_Instruction_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Адрес сервиса не должен быть пустым.
         /// </summary>
         internal static string E_Service_Url_could_not_be_empty {

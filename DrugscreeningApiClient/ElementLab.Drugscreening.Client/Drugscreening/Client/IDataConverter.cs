@@ -1,6 +1,6 @@
 ﻿// **********************************************************************************************\
-// Module Name:  Disease.cs
-// Project:      ElementLab.Drugscreening.Contracts 
+// Module Name:  IJsonConverter.cs
+// Project:      ElementLab.Drugscreening.Client 
 // 
 // Copyright (c) Element Lab LLC
 // 
@@ -9,19 +9,11 @@
 // WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 // **********************************************************************************************/
 // 
-namespace ElementLab.Drugscreening.Contracts
+namespace ElementLab.Drugscreening.Client
 {
-    /// <summary>
-    /// Диагноз/заболевание.
-    /// </summary>
-    /// <summary lang="en">
-    /// Disease
-    /// </summary>
-    public class Disease : ScreenableConcept
+    public interface IDataConverter
     {
-        /// <summary>
-        /// Признак основного заболевания.
-        /// </summary>
-        public bool IsPrimary { get; set; }
+        string Serialize<T>(T obj) where T : class;
+        T Deserialize<T>(string str) where T : class;
     }
 }

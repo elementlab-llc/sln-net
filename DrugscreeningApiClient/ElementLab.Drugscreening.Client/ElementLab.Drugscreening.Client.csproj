@@ -53,8 +53,10 @@
     <Compile Include="Drugscreening\Client\ApiSecurityException.cs" />
     <Compile Include="Drugscreening\Client\AsyncLock.cs" />
     <Compile Include="Drugscreening\Client\AsyncSemaphore.cs" />
+    <Compile Include="Drugscreening\Client\JsonDataConverter.cs" />
     <Compile Include="Drugscreening\Client\ErrorInfo.cs" />
     <Compile Include="Drugscreening\Client\IApiConnection.cs" />
+    <Compile Include="Drugscreening\Client\IDataConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

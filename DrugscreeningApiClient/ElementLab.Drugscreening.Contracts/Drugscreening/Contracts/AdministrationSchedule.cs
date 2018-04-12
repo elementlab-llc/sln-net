@@ -15,22 +15,33 @@ using System;
 namespace ElementLab.Drugscreening.Contracts
 {
     /// <summary>
-    /// Схема приема лекарственного средства.
+    /// Описывает расписание и схему приема лекарственного средства.
     /// </summary>
     /// 
     /// <summary lang="en">
-    /// Defines drug adminstration schedule.
+    /// Defines drug adminstration schedule and schema.
     /// </summary>
     public class AdministrationSchedule
     {
         /// <summary>
-        /// Дата первого приема.
+        /// Дата первого приема. Обязательный параметр.
+        /// </summary>
+        /// <summary lang="en">
+        /// Date of the first administration.
         /// </summary>
         public DateTime FirstAdministration { get; set; }
 
         /// <summary>
-        /// Дата последнего приема. Значение может быть опущено.
+        /// Дата последнего приема. Необязательный параметр, может быть null.
+        /// </summary>
+        /// <summary lang="en">
+        /// Date of the last administration. Optional, may be null.
         /// </summary>
         public DateTime? LastAdministration { get; set; }
+
+        /// <summary>
+        /// Схема приема в виде текста. Необязательный параметр.
+        /// </summary>
+        public string Schema { get; set; }
     }
 }

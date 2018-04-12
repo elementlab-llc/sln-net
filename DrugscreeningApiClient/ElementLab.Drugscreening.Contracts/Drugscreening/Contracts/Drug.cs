@@ -61,10 +61,10 @@ namespace ElementLab.Drugscreening.Contracts
     public class Drug : ScreenableConcept
     {
         /// <summary>
-        /// Схема приема лекарственного средства. Может быть null.
+        /// Схема приема лекарственного средства. Необязательный параметр, может быть null.
         /// </summary>
         /// <summary lang="en">
-        /// Definition of the drug administration schedule. May be null.
+        /// Definition of the drug administration schedule. Optional, may be null.
         /// </summary>
         public AdministrationSchedule Schedule { get; set; }
     }

@@ -23,7 +23,6 @@ using System.Threading.Tasks;
 using ElementLab.Drugscreening.Contracts;
 using ElementLab.Properties;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace ElementLab.Drugscreening.Client
 {
@@ -31,20 +30,19 @@ namespace ElementLab.Drugscreening.Client
     {
         const string CreateTokenUrl = "account/token";
 
-        static readonly JsonSerializerSettings _serializationSettings = new JsonSerializerSettings()
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-            Converters = { new StringEnumConverter() },
-            DateFormatString = "yyyy-MM-dd",
-            DateTimeZoneHandling = DateTimeZoneHandling.Local,
-            Formatting = Formatting.Indented
-        };
-
         readonly ClientCredentials _credentials;
         readonly HttpClient _httpClient;
         readonly AsyncLock _tokenLock = new AsyncLock();
         readonly TraceSource _trace = new TraceSource(typeof(ApiClient).Namespace);
         volatile AuthenticationHeaderValue _token;
+
+        IDataConverter _dataConverter;
+
+        public IDataConverter Converter
+        {
+            get => _dataConverter ?? (_dataConverter = new JsonDataConverter());
+            set => _dataConverter = value;
+        }
 
         /// <summary>
         /// Инициализирует экземпляр класса <see cref="ApiConnection"/>
@@ -56,6 +54,7 @@ namespace ElementLab.Drugscreening.Client
         {
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public ApiConnection(HttpMessageHandler httpHandler, string url, ClientCredentials credentials)
         {
             if (string.IsNullOrWhiteSpace(url)) throw new ArgumentException(Resources.E_Service_Url_could_not_be_empty, nameof(url));
@@ -80,27 +79,37 @@ namespace ElementLab.Drugscreening.Client
             };
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             _httpClient?.Dispose();
         }
 
+        /// <summary>
+        /// Выполняет авторизованный GET запрос к API
+        /// </summary>
+        /// <typeparam name="TResult">Тип данных результата</typeparam>
+        /// <param name="resourceUrl">Относительный адрес ресурса</param>
+        /// <param name="urlParameters">Параметры для формирования полного URL запроса</param>
+        /// <returns>Результат запроса</returns>
         public Task<TResult> GetAsync<TResult>(string resourceUrl, object urlParameters)
             where TResult : class
         {
-            return SendAsync<TResult>(HttpMethod.Get, resourceUrl, urlParameters, null);
+            return SendAuthorizedAsync<TResult>(HttpMethod.Get, resourceUrl, urlParameters, null);
         }
 
+        /// <summary>
+        /// Выполняет авторизованный POST запрос к API
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="resourceUrl">Относительный адрес ресурса</param>
+        /// <param name="urlParameters">Параметры для формирования полного URL запроса</param>
+        /// <param name="payload">Данные для передачи в теле запроса</param>
+        /// <returns>Результат запроса</returns>
         public Task<TResult> PostAsync<TResult>(string resourceUrl, object urlParameters, object payload)
             where TResult : class
         {
-            return SendAsync<TResult>(HttpMethod.Post, resourceUrl, urlParameters, payload);
-        }
-
-        Task<TResult> SendAsync<TResult>(HttpMethod method, string url, object urlParameters, object payload)
-            where TResult : class
-        {
-            return SendAuthorizedAsync<TResult>(method, url, urlParameters, payload);
+            return SendAuthorizedAsync<TResult>(HttpMethod.Post, resourceUrl, urlParameters, payload);
         }
 
         async Task<AuthenticationHeaderValue> GetOrCreateTokenAsync(bool force)
@@ -120,6 +129,15 @@ namespace ElementLab.Drugscreening.Client
             return _token;
         }
 
+        /// <summary>
+        /// Выполняет авторизованный запрос к API
+        /// </summary>
+        /// <typeparam name="TResult">Тип результата</typeparam>
+        /// <param name="method">Метод HTTP</param>
+        /// <param name="url">Относительный адрес ресурса</param>
+        /// <param name="urlParameters">Параметры для формирования полного URL запроса</param>
+        /// <param name="payload">Данные для передачи в теле запроса</param>
+        /// <returns>Результат запроса</returns>
         async Task<TResult> SendAuthorizedAsync<TResult>(HttpMethod method, string url, object urlParameters, object payload)
             where TResult : class
         {
@@ -145,6 +163,15 @@ namespace ElementLab.Drugscreening.Client
             return result;
         }
 
+        /// <summary>
+        /// Выполняет анонимный запрос к API
+        /// </summary>
+        /// <typeparam name="TResult">Тип результата</typeparam>
+        /// <param name="method">Метод HTTP</param>
+        /// <param name="url">Относительный адрес ресурса</param>
+        /// <param name="urlParameters">Параметры для формирования полного URL запроса</param>
+        /// <param name="payload">Данные для передачи в теле запроса</param>
+        /// <returns>Результат запроса</returns>
         async Task<TResult> SendAnonymousAsync<TResult>(HttpMethod method, string url, object urlParameters, object payload)
             where TResult : class
         {
@@ -158,7 +185,7 @@ namespace ElementLab.Drugscreening.Client
             return result;
         }
 
-        static HttpRequestMessage CreateRequestMessage(HttpMethod method, string url, object urlParameters, object payload)
+        HttpRequestMessage CreateRequestMessage(HttpMethod method, string url, object urlParameters, object payload)
         {
             var requestMessage = new HttpRequestMessage()
             {
@@ -189,7 +216,7 @@ namespace ElementLab.Drugscreening.Client
                 }
             }
 
-            if (method == HttpMethod.Post)
+            if (method == HttpMethod.Post || method == HttpMethod.Put)
             {
                 var json = Serialize(payload);
                 requestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -200,7 +227,7 @@ namespace ElementLab.Drugscreening.Client
             return requestMessage;
         }
 
-        static async Task<TResponse> ReadResponseAsync<TResponse>(HttpResponseMessage responseMessage)
+        async Task<TResponse> ReadResponseAsync<TResponse>(HttpResponseMessage responseMessage)
             where TResponse : class
         {
             TResponse response = null;
@@ -295,15 +322,14 @@ namespace ElementLab.Drugscreening.Client
             }
         }
 
-        static string Serialize(object obj)
+        string Serialize<T>(T obj) where T : class
         {
-            return JsonConvert.SerializeObject(obj, _serializationSettings);
+            return Converter.Serialize(obj);
         }
 
-        static T Deserialize<T>(string json)
+        T Deserialize<T>(string str) where T : class
         {
-            return JsonConvert.DeserializeObject<T>(json, _serializationSettings);
+            return Converter.Deserialize<T>(str);
         }
-
     }
 }

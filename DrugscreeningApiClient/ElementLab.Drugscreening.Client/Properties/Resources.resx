@@ -120,4 +120,13 @@
   <data name="E_Service_Url_could_not_be_empty" xml:space="preserve">
     <value>Адрес сервиса не должен быть пустым</value>
   </data>
+  <data name="E_Missing_Concept_Type" xml:space="preserve">
+    <value>Не указан тип концепта</value>
+  </data>
+  <data name="E_Missing_Concept_Code" xml:space="preserve">
+    <value>Не указан код концепта</value>
+  </data>
+  <data name="E_Missing_Instruction_Code" xml:space="preserve">
+    <value>Не указан код инструкции</value>
+  </data>
 </root>

@@ -11,21 +11,20 @@
 // 
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using ElementLab.Drugscreening.Contracts;
+using ElementLab.Properties;
 
 namespace ElementLab.Drugscreening.Client
 {
     public class ApiClient : IDisposable
     {
         const int FindConceptsLimit = 50;
-        readonly IApiConnection _connection;
-
-        readonly TraceSource _trace = new TraceSource(typeof(ApiClient).Namespace);
+        static readonly DateTime _emptyDate = new DateTime(1900, 1, 1);
         readonly bool _ownsConnection = false;
+
+        public IApiConnection Connection { get; }
 
         /// <summary>
         /// Инициализирует экземпляр класса <see cref="ApiClient"/>
@@ -33,7 +32,7 @@ namespace ElementLab.Drugscreening.Client
         /// <param name="connection"></param>
         public ApiClient(IApiConnection connection)
         {
-            _connection = connection;
+            Connection = connection;
             _ownsConnection = false;
         }
 
@@ -50,7 +49,7 @@ namespace ElementLab.Drugscreening.Client
         public void Dispose()
         {
             if (_ownsConnection)
-                _connection?.Dispose();
+                Connection?.Dispose();
         }
 
         /// <summary>
@@ -128,6 +127,11 @@ namespace ElementLab.Drugscreening.Client
         /// <returns>Описание концепта</returns>
         public Task<ConceptInfo> GetConceptAsync(string conceptType, string conceptCode)
         {
+            if (string.IsNullOrWhiteSpace(conceptType))
+                throw new ArgumentException(Resources.E_Missing_Concept_Type, nameof(conceptType));
+            if (string.IsNullOrWhiteSpace(conceptCode))
+                throw new ArgumentException(Resources.E_Missing_Concept_Code, nameof(conceptCode));
+
             return GetAsync<ConceptInfo>(Urls.GetConcept, new { type = conceptType, code = conceptCode });
         }
 
@@ -139,6 +143,11 @@ namespace ElementLab.Drugscreening.Client
         /// <returns>Информация об имеющихся инструкциях</returns>
         public Task<Instruction[]> ListInstructionsAsync(string conceptType, string conceptCode)
         {
+            if (string.IsNullOrWhiteSpace(conceptType))
+                throw new ArgumentException(Resources.E_Missing_Concept_Type, nameof(conceptType));
+            if (string.IsNullOrWhiteSpace(conceptCode))
+                throw new ArgumentException(Resources.E_Missing_Concept_Code, nameof(conceptCode));
+
             return GetAsync<Instruction[]>(Urls.ListInstructions, new { type = conceptType, code = conceptCode });
         }
 
@@ -149,6 +158,9 @@ namespace ElementLab.Drugscreening.Client
         /// <returns>Объект, описывающий содержимое инструкции</returns>
         public Task<InstructionContent> GetInstructionAsync(string instructionCode)
         {
+            if (string.IsNullOrWhiteSpace(instructionCode))
+                throw new ArgumentException(Resources.E_Missing_Instruction_Code, nameof(instructionCode));
+
             return GetAsync<InstructionContent>(Urls.GetInstructionContent, new { code = instructionCode });
         }
 
@@ -159,19 +171,49 @@ namespace ElementLab.Drugscreening.Client
         /// <returns>Результат скрининга</returns>
         public Task<ScreeningSummary> ScreenAsync(ScreenRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            // очистить пустые поля, чтобы не передавать лишние данные
+            if (request.Patient != null)
+            {
+                var patient = request.Patient;
+                if (patient.BirthDate.HasValue && patient.BirthDate.Value < _emptyDate)
+                    patient.BirthDate = null;
+
+                if (patient.BodySurfaceArea == 0)
+                    patient.BodySurfaceArea = null;
+                if (patient.Weight == 0)
+                    patient.Weight = null;
+
+                if (patient.ExpectedBirthDate.HasValue && patient.ExpectedBirthDate.Value < _emptyDate)
+                    patient.ExpectedBirthDate = null;
+
+                var sport = patient.Sport;
+                if (sport != null)
+                {
+                    if (string.IsNullOrWhiteSpace(sport.Role))
+                        sport.Role = null;
+                }
+            }
+            if (request.Allergies?.Count == 0)
+                request.Allergies = null;
+
+            if (request.Diseases?.Count == 0)
+                request.Diseases = null;
+
             return PostAsync<ScreeningSummary>(Urls.Screening, null, request);
         }
 
         Task<TResponse> GetAsync<TResponse>(string url, object urlParameters = null)
             where TResponse : class
         {
-            return _connection.GetAsync<TResponse>(url, urlParameters);
+            return Connection.GetAsync<TResponse>(url, urlParameters);
         }
 
         Task<TResponse> PostAsync<TResponse>(string url, object urlParameters, object request)
             where TResponse : class
         {
-            return _connection.PostAsync<TResponse>(url, urlParameters, request);
+            return Connection.PostAsync<TResponse>(url, urlParameters, request);
         }
 
         static class Urls

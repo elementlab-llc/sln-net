@@ -40,8 +40,6 @@ namespace ElementLab.Drugscreening.Contracts
                                                | ScreeningType.DopingAlerts
                                                | ScreeningType.GeneticTesting;
 
-        ScreeningOptions _options;
-
         ScreeningType _screeningTypes = AllScreenings;
 
         /// <summary>
@@ -94,10 +92,6 @@ namespace ElementLab.Drugscreening.Contracts
         /// <summary lang="en">
         /// Options for fine-tuning screening processes
         /// </summary>
-        public ScreeningOptions Options
-        {
-            get => _options ?? (_options = new ScreeningOptions());
-            set => _options = value;
-        }
+        public ScreeningOptions Options { get; set; }
     }
 }

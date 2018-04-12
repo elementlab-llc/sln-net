@@ -241,12 +241,68 @@ namespace ElementLab.Drugscreening.Client.Tests
         }
 
         [Test]
+        public async Task ScreeningParameters()
+        {
+            ScreenRequest sentRequest = null;
+            _handler
+                .Setup(f => f.Send(It.Is(Request.PostTo("/screening"))))
+                .Returns((HttpRequestMessage req) => req.Authorized(() =>
+                {
+                    var requestContent = req.Content.ReadAsStringAsync().Result;
+                    sentRequest = ((ApiConnection)_client.Connection).Converter.Deserialize<ScreenRequest>(requestContent);
+
+                    return req.CreateResponse(HttpStatusCode.OK, "{}");
+                }));
+
+            var request = CreateScreenRequest();
+            await _client.ScreenAsync(request);
+
+            Assert.AreEqual(request.Drugs.Count, sentRequest.Drugs.Count);
+        }
+
+        [Test]
         public async Task Screening()
         {
             _handler
                 .Setup(f => f.Send(It.Is(Request.PostTo("/screening"))))
                 .Returns((HttpRequestMessage req) => req.Authorized(HttpStatusCode.OK, TestResponses.AllScreenings));
 
+            var request = CreateScreenRequest();
+            var result = await _client.ScreenAsync(request);
+
+            Assert.That(result.DrugDrugInteractions, Is.Not.Null);
+            Assert.That(result.DrugFoodInteractions, Is.Not.Null);
+            Assert.That(result.DrugAlcoholInteractions, Is.Not.Null);
+
+            Assert.That(result.AllergicReactions, Is.Not.Null);
+            Assert.That(result.AllergicReactions.Items.Count, Is.EqualTo(2));
+
+            var alg1 = result.AllergicReactions.Items[0];
+            Assert.That(alg1.AllergenClass, Is.EqualTo(new AllergenClass()
+            {
+                Type = "AllergenClass",
+                Code = "ALGC0073",
+                Name = "Варфарин и родственные препараты"
+            }));
+            Assert.That(alg1.Kind, Is.EqualTo("AllergicReactionAtClass"));
+            Assert.That(alg1.Allergies[0], Is.EqualTo(request.Allergies[1]));
+
+            Assert.That(result.AgeContraindications, Is.Not.Null);
+            Assert.That(result.GenderContraindications, Is.Not.Null);
+            Assert.That(result.PregnancyContraindications, Is.Not.Null);
+            Assert.That(result.LactationContraindications, Is.Not.Null);
+            Assert.That(result.DiseaseContraindications, Is.Not.Null);
+
+            Assert.That(result.DuplicateTherapies, Is.Not.Null);
+            Assert.That(result.DuplicateTherapies.Items.Count, Is.EqualTo(0));
+            Assert.That(result.DuplicateTherapies.Messages.Count, Is.EqualTo(1));
+
+            Assert.That(result.DopingAlerts, Is.Not.Null);
+            Assert.That(result.GeneticTests, Is.Not.Null);
+        }
+
+        ScreenRequest CreateScreenRequest()
+        {
             var request = new ScreenRequest()
             {
                 Patient = new Patient()
@@ -317,37 +373,7 @@ namespace ElementLab.Drugscreening.Client.Tests
                     IncludeInsignificantInactiveIngredients = true
                 }
             };
-            var result = await _client.ScreenAsync(request);
-
-            Assert.That(result.DrugDrugInteractions, Is.Not.Null);
-            Assert.That(result.DrugFoodInteractions, Is.Not.Null);
-            Assert.That(result.DrugAlcoholInteractions, Is.Not.Null);
-
-            Assert.That(result.AllergicReactions, Is.Not.Null);
-            Assert.That(result.AllergicReactions.Items.Count, Is.EqualTo(2));
-
-            var alg1 = result.AllergicReactions.Items[0];
-            Assert.That(alg1.AllergenClass, Is.EqualTo(new AllergenClass()
-            {
-                Type = "AllergenClass",
-                Code = "ALGC0073",
-                Name = "Варфарин и родственные препараты"
-            }));
-            Assert.That(alg1.Kind, Is.EqualTo("AllergicReactionAtClass"));
-            Assert.That(alg1.Allergies[0], Is.EqualTo(request.Allergies[1]));
-
-            Assert.That(result.AgeContraindications, Is.Not.Null);
-            Assert.That(result.GenderContraindications, Is.Not.Null);
-            Assert.That(result.PregnancyContraindications, Is.Not.Null);
-            Assert.That(result.LactationContraindications, Is.Not.Null);
-            Assert.That(result.DiseaseContraindications, Is.Not.Null);
-
-            Assert.That(result.DuplicateTherapies, Is.Not.Null);
-            Assert.That(result.DuplicateTherapies.Items.Count, Is.EqualTo(0));
-            Assert.That(result.DuplicateTherapies.Messages.Count, Is.EqualTo(1));
-
-            Assert.That(result.DopingAlerts, Is.Not.Null);
-            Assert.That(result.GeneticTests, Is.Not.Null);
+            return request;
         }
     }
 }

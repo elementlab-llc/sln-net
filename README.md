@@ -4,7 +4,7 @@
 
 Код написан с использованием Visual Studio 2017, .NET Framework 4.5.2 и языка C# версии 7.
 
-## Общая информация по REST API
+## Общая информация о клиенте
 
 Данный клиент покрывает всю функциональность, предоставляемую СЛН-сервисом:
 - Получение типов концептов
@@ -15,7 +15,7 @@
 С описанием всех ресурсов REST API, их параметров и результатов можно получить 
 на [странице справки][api-help].
 
-Общая информация о СЛН-Сервисе доступна в репозитории [sln][common-help].
+Общая информация об СЛН-Сервисе доступна в репозитории [sln][common-help].
 
 ### Создание клиента
 
@@ -52,6 +52,7 @@ var concepts = await client.FindConceptsAsync("аспирин", SearchMethod.Tex
 ```
 
 #### Примеры
+
 Поиск среди всех препаратов и субстанций:
 ```csharp
 var concepts = await client.FindConceptsAsync("аспирин", SearchMethod.Text, SearchScope.DrugsAndSubstances);
@@ -67,14 +68,15 @@ var concepts = await client.FindConceptsAsync("пыль", SearchMethod.Text, Sea
 var diseases = await client.FindConceptsAsync("ангина", SearchMethod.Text, SearchScope.Diseases);
 ```
 
-Кроме поиска по тексту, доступны 
-1. поиск по штрихкоду препарата (SearchMethod.Barcode)
-2. по точному совпадению названия (SearchMethod.ExactName)
+Кроме поиска по тексту, он может быть выполнен:
+- по точному совпадению штрихкода `SearchMethod.Barcode`. 
+Доступен только для Лекарственных препаратов (DispensableDrug) и БАДов (DietarySupplement).
+- по точному совпадению названия `SearchMethod.ExactName`.
 
-Например, следующий код вернет все препараты, штрихкод которых равен 123456789012:
+Например, следующий код вернет все препараты, штрихкод которых равен 4008500120002:
 ```csharp
 // поиск по штрихкоду
-var concepts = await client.FindConceptsAsync("123456789012", SearchMethod.Barcode, "DispensableDrug", "Substance");
+var concepts = await client.FindConceptsAsync("4008500120002", SearchMethod.Barcode, "DispensableDrug", "Substance");
 ```
 
 ### Получение концепта
@@ -88,6 +90,11 @@ var concept = await client.GetConceptAsync("DispensableDrug", "DD0000800");
 // выполнение скрининга
 var request = new ScreenRequest()
 {
+    // запрашивается выполнение трех видов скринингов
+    ScreeningTypes = ScreeningType.DrugDrugInteractions 
+                   | ScreeningType.AllergicReactions 
+                   | ScreeningType.DiseaseContraindications,
+
     // информация о пациенте
     Patient = new Patient()
     {
@@ -116,6 +123,7 @@ var request = new ScreenRequest()
             Code = "DD0000800", 
             Name = "Аспирин табл. 100мг"
         },
+        // пример препарата с расписанием и схемой приема
         new Drug()
         {
             Type = "DispensableDrug",
@@ -124,7 +132,8 @@ var request = new ScreenRequest()
             Schedule = new AdministrationSchedule()
             {
                 FirstAdministration = DateTime.Today.AddDays(-1),
-                LastAdministration = DateTime.Today.AddDays(4)
+                LastAdministration = DateTime.Today.AddDays(4),
+                Schema = "По 1 таблетке 2 раза в день"
             }
         }
     },
@@ -157,7 +166,8 @@ var request = new ScreenRequest()
         {
             Type = "ICD10CM",
             Code = "D69.5",
-            Name = "Вторичная тромбоцитопения"
+            Name = "Вторичная тромбоцитопения",
+            IsPrimary = true
         }
     },
     Options = new ScreeningOptions()
@@ -273,6 +283,6 @@ InstructionHelper.UseCustomStylesheet(customXsltTransform)
 раз с периодом приема с 10 по 16 февраля.
 
 
-[api-instance]: https://int.drugscreening.ru/v1/
+[api-instance]: https://int.drugscreening.ru/v1
 [api-help]: https://int.drugscreening.ru/v1/help
-[common-help]: ../sln
+[common-help]: https://github.com/elementlab-llc/sln
