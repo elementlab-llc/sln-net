@@ -11,6 +11,8 @@
 // 
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using ElementLab.Drugscreening.Contracts;
@@ -23,6 +25,7 @@ namespace ElementLab.Drugscreening.Client
         readonly IApiConnection _connection;
 
         readonly TraceSource _trace = new TraceSource(typeof(ApiClient).Namespace);
+        readonly bool _ownsConnection = false;
 
         /// <summary>
         /// Инициализирует экземпляр класса <see cref="ApiClient"/>
@@ -31,12 +34,23 @@ namespace ElementLab.Drugscreening.Client
         public ApiClient(IApiConnection connection)
         {
             _connection = connection;
+            _ownsConnection = false;
+        }
+
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="ApiClient"/>
+        /// </summary>
+        public ApiClient(string baseUrl, ClientCredentials credentials)
+            : this(new ApiConnection(baseUrl, credentials))
+        {
+            _ownsConnection = true;
         }
 
         /// <inheritdoc />
         public void Dispose()
         {
-            _connection?.Dispose();
+            if (_ownsConnection)
+                _connection?.Dispose();
         }
 
         /// <summary>
@@ -64,12 +78,16 @@ namespace ElementLab.Drugscreening.Client
         /// <param name="start">Индекс первого элемента списка</param>
         /// <param name="pageSize">Максимальное количество возвращаемых концептов</param>
         /// <returns>Список концептов</returns>
-        public Task<ConceptInfo[]> ListConceptsAsync(string type, int start = 0, int pageSize = 50)
+        public async Task<ListConceptsResult> ListConceptsAsync(string type, int start = 0, int pageSize = 50)
         {
             if (string.IsNullOrWhiteSpace(type))
                 throw new ArgumentNullException(nameof(type));
 
-            return GetAsync<ConceptInfo[]>(Urls.ListConceptsOfType, new { type = type, start = start, pageSize = pageSize });
+            // запрашивается на 1 концепт больше, чтобы понять - есть ли еще концепты
+            var concepts = await GetAsync<ConceptInfo[]>(Urls.ListConceptsOfType, new { type = type, start = start, pageSize = pageSize + 1 });
+
+            var result = new ListConceptsResult(concepts.Take(pageSize).ToArray(), start, concepts.Length > pageSize);
+            return result;
         }
 
         /// <summary>
@@ -129,7 +147,7 @@ namespace ElementLab.Drugscreening.Client
         /// </summary>
         /// <param name="instructionCode">Код инструкции</param>
         /// <returns>Объект, описывающий содержимое инструкции</returns>
-        public Task<InstructionContent> GetInstructionContentAsync(string instructionCode)
+        public Task<InstructionContent> GetInstructionAsync(string instructionCode)
         {
             return GetAsync<InstructionContent>(Urls.GetInstructionContent, new { code = instructionCode });
         }

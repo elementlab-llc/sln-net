@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -51,13 +52,44 @@ namespace ElementLab.Drugscreening.Client.Tests
         {
             _handler
                 .Setup(f => f.Send(It.Is(Request.GetOf("/concepts/types"))))
-                .Returns((HttpRequestMessage req) => req.Authorized(HttpStatusCode.OK, TestResponses.ListConceptTypes));
+                .Returns((HttpRequestMessage req) => req.Authorized(HttpStatusCode.OK, TestResponses.GetConceptTypes));
 
             var types = await _client.GetConceptTypesAsync();
 
             Assert.That(types.Length, Is.EqualTo(2));
             Assert.That(types[0].Type, Is.EqualTo("Type1"));
             Assert.That(types[1].Type, Is.EqualTo("Type2"));
+        }
+
+        [Test]
+        public async Task GetExternalConceptTypes()
+        {
+            _handler
+                .Setup(f => f.Send(It.Is(Request.GetOf("/concepts/types/external"))))
+                .Returns((HttpRequestMessage req) => req.Authorized(HttpStatusCode.OK, TestResponses.GetExternalConceptTypes));
+
+            var types = await _client.GetExternalConceptTypesAsync();
+
+            Assert.That(types.Length, Is.EqualTo(2));
+            Assert.That(types[0].Type, Is.EqualTo("urn:rlsnet:nomen"));
+            Assert.That(types[1].Type, Is.EqualTo("urn:slovenia:cbz"));
+        }
+
+        [Test]
+        public async Task ListConcepts()
+        {
+            _handler
+                .Setup(f => f.Send(It.Is(Request.GetOf("/concepts/list/type1"))))
+                .Returns((HttpRequestMessage req) => req.Authorized(HttpStatusCode.OK, TestResponses.ListConcepts));
+
+            var concepts = await _client.ListConceptsAsync("Type1");
+            Assert.That(concepts.Concepts.Count, Is.EqualTo(1));
+            Assert.That(concepts.FirstItemIndex, Is.EqualTo(0));
+            Assert.That(concepts.HasMoreItems, Is.EqualTo(false));
+            var c = concepts.Concepts[0];
+            Assert.That(c.Code, Is.EqualTo("TST123"));
+            Assert.That(c.Name, Is.EqualTo("Концепт1"));
+            Assert.That(c.ResourceUrl, Is.EqualTo("http://localhost/concepts/type1?code=TST123"));
         }
 
         [Test]
@@ -76,7 +108,6 @@ namespace ElementLab.Drugscreening.Client.Tests
 
             Assert.That(concepts.Length, Is.EqualTo(1));
             var c = concepts[0];
-            Assert.That(c.UniqueId, Is.EqualTo(660));
             Assert.That(c.Type, Is.EqualTo("DispensableDrug"));
             Assert.That(c.Code, Is.EqualTo("DD0000800"));
             Assert.That(c.Name, Is.EqualTo("Аспирин табл. 100мг"));
@@ -84,7 +115,7 @@ namespace ElementLab.Drugscreening.Client.Tests
         }
 
         [Test]
-        public async Task FindDrugByType()
+        public async Task FindDrugByTypeByText()
         {
             _handler
                 .Setup(f => f.Send(It.Is(Request.GetOf("/concepts/find"))))
@@ -100,7 +131,6 @@ namespace ElementLab.Drugscreening.Client.Tests
 
             Assert.That(concepts.Length, Is.EqualTo(1));
             var c = concepts[0];
-            Assert.That(c.UniqueId, Is.EqualTo(660));
             Assert.That(c.Type, Is.EqualTo("DispensableDrug"));
             Assert.That(c.Code, Is.EqualTo("DD0000800"));
             Assert.That(c.Name, Is.EqualTo("Аспирин табл. 100мг"));
@@ -108,19 +138,38 @@ namespace ElementLab.Drugscreening.Client.Tests
         }
 
         [Test]
-        public async Task ListConcepts()
+        public async Task FindDrugByTypeByBarcode()
         {
             _handler
-                .Setup(f => f.Send(It.Is(Request.GetOf("/concepts/list/type1"))))
-                .Returns((HttpRequestMessage req) => req.Authorized(HttpStatusCode.OK, TestResponses.ListConcepts));
+                .Setup(f => f.Send(It.Is(Request.GetOf("/concepts/find"))))
+                .Returns((HttpRequestMessage req) => req.Authorized(() =>
+                {
+                    if (req.QueryParametersIs(new { q = "4008500120002", type = "dispensableDrug", searchBy = "Barcode", limit = 50 }))
+                        return req.CreateResponse(HttpStatusCode.OK, TestResponses.FindAspirinByScope);
 
-            var concepts = await _client.ListConceptsAsync("Type1");
+                    return req.CreateResponse(HttpStatusCode.OK, "[]");
+                }));
+
+            var concepts = await _client.FindConceptsAsync("4008500120002", SearchMethod.Barcode, "DispensableDrug");
+
             Assert.That(concepts.Length, Is.EqualTo(1));
             var c = concepts[0];
-            Assert.That(c.UniqueId, Is.EqualTo(123));
-            Assert.That(c.Code, Is.EqualTo("TST123"));
-            Assert.That(c.Name, Is.EqualTo("Концепт1"));
-            Assert.That(c.ResourceUrl, Is.EqualTo("http://localhost/concepts/type1?code=TST123"));
+            Assert.That(c.Type, Is.EqualTo("DispensableDrug"));
+            Assert.That(c.Code, Is.EqualTo("DD0000800"));
+            Assert.That(c.Name, Is.EqualTo("Аспирин табл. 100мг"));
+            Assert.That(c.ResourceUrl, Is.EqualTo("http://localhost/concepts/dispensabledrug?code=DD0000800"));
+        }
+
+        [Test]
+        public async Task FindDrugByTypeByBarcode_NoMatches()
+        {
+            _handler
+                .Setup(f => f.Send(It.Is(Request.GetOf("/concepts/find"))))
+                .Returns((HttpRequestMessage req) => req.Authorized(HttpStatusCode.OK, "[]"));
+
+            var concepts = await _client.FindConceptsAsync("4008500120002", SearchMethod.Barcode, "DispensableDrug");
+
+            Assert.That(concepts.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -129,9 +178,9 @@ namespace ElementLab.Drugscreening.Client.Tests
         {
             _handler
                 .Setup(f => f.Send(It.Is(Request.GetOf("/instructions"))))
-                .Returns((HttpRequestMessage req) => req.Authorized(()=>
+                .Returns((HttpRequestMessage req) => req.Authorized(() =>
                 {
-                    if (req.QueryParametersIs(new { type = type, code= code }))
+                    if (req.QueryParametersIs(new { type = type, code = code }))
                         return req.CreateResponse(HttpStatusCode.OK, TestResponses.InstructionsForWarfarin);
 
                     return req.CreateResponse(HttpStatusCode.OK, "[]");
@@ -154,7 +203,7 @@ namespace ElementLab.Drugscreening.Client.Tests
                 .Setup(f => f.Send(It.Is(Request.GetOf($"/instructions/{code}"))))
                 .Returns((HttpRequestMessage req) => req.Authorized(HttpStatusCode.OK, TestResponses.ResourceManager.GetString($"Instruction_{code.Replace("-", "")}")));
 
-            var instr = await _client.GetInstructionContentAsync(code);
+            var instr = await _client.GetInstructionAsync(code);
             Assert.That(instr.Code, Is.EqualTo(code));
             Assert.That(instr.Content, Is.EqualTo("<Drug></Drug>"));
         }
@@ -167,7 +216,7 @@ namespace ElementLab.Drugscreening.Client.Tests
                 .Setup(f => f.Send(It.Is(Request.GetOf($"/concepts/{type}"))))
                 .Returns((HttpRequestMessage req) => req.Authorized(() =>
                 {
-                    if (req.QueryParametersIs(new {code = code}))
+                    if (req.QueryParametersIs(new { code = code }))
                         return req.CreateResponse(HttpStatusCode.OK, TestResponses.AspirinConcept);
 
                     return req.CreateResponse(HttpStatusCode.NotFound, TestResponses.ResourceNotFound);
@@ -223,11 +272,11 @@ namespace ElementLab.Drugscreening.Client.Tests
                     new Drug()
                     {
                         Type = "DispensableDrug",
-                        Code = "661",
-                        Name = "Аспирин табл. 500мг",
+                        Code = "DD0000800",
+                        Name = "Аспирин табл. 100мг",
                         Schedule = new AdministrationSchedule()
                         {
-                             FirstAdministration = DateTime.Today.AddDays(-1),
+                            FirstAdministration = DateTime.Today.AddDays(-1),
                             LastAdministration = DateTime.Today.AddDays(4)
                         }
                     },
@@ -242,9 +291,9 @@ namespace ElementLab.Drugscreening.Client.Tests
                 {
                     new Allergy()
                     {
-                        Type= "AllergenClass",
-                        Code= "ALGC0029",
-                        Name= "Салицилаты"
+                        Type = "AllergenClass",
+                        Code = "ALGC0029",
+                        Name = "Салицилаты"
                     },
                     new Allergy()
                     {

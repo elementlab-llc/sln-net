@@ -129,6 +129,33 @@ namespace ElementLab.Drugscreening.Client.Tests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [{&quot;Type&quot;: &quot;Type1&quot;,&quot;Name&quot;: &quot;Название1&quot;},{&quot;Type&quot;: &quot;Type2&quot;,&quot;Name&quot;: &quot;Название2&quot;}].
+        /// </summary>
+        internal static string GetConceptTypes {
+            get {
+                return ResourceManager.GetString("GetConceptTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [
+        ///    {
+        ///        &quot;Type&quot;: &quot;urn:rlsnet:nomen&quot;,
+        ///        &quot;Name&quot;: &quot;RLS Packaged Drug&quot;
+        ///    },
+        ///    {
+        ///        &quot;Type&quot;: &quot;urn:slovenia:cbz&quot;,
+        ///        &quot;Name&quot;: &quot;Словенский препарат (CBZ)&quot;
+        ///    }
+        ///].
+        /// </summary>
+        internal static string GetExternalConceptTypes {
+            get {
+                return ResourceManager.GetString("GetExternalConceptTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {
         ///    &quot;Code&quot;: &quot;a32d6a19-a1c6-47fd-ad95-1a6e58e92212&quot;,
         ///    &quot;Name&quot;: &quot;Варфарин, таблетки по 2,5 мг. ОЗОН, ООО (Россия)&quot;,
@@ -143,7 +170,7 @@ namespace ElementLab.Drugscreening.Client.Tests {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Drug&gt;&lt;Alerts&gt;&lt;Alert type=&quot;AgeAbove60&quot; severity=&quot;3&quot; details=&quot;WithCare&quot; /&gt;&lt;Alert type=&quot;HepaticDisease&quot; severity=&quot;3&quot; details=&quot;WithCare&quot; /&gt;&lt;Alert type=&quot;KidneyDisease&quot; severity=&quot;3&quot; details=&quot;WithCare&quot; /&gt;&lt;Alert type=&quot;Pregnancy&quot; severity=&quot;3&quot; details=&quot;WithCare&quot; /&gt;&lt;Alert type=&quot;Diabetes&quot; severity=&quot;1&quot; details=&quot;CounterIndications&quot; /&gt;&lt;/Alerts&gt;&lt;TradeName locale=&quot;Ru&quot; value=&quot;Варфарин&quot; /&gt;&lt;TradeName locale=&quot;En&quot; value=&quot;Warfarin&quot; /&gt;&lt;Mnn value=&quot;Варфарин&quot; /&gt;&lt;RegistrationDate value=&quot;18.08.2010&quot; /&gt;&lt;HtmlSection name=&quot;RegistrationNu [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;Drug&gt;&lt;/Drug&gt;.
         /// </summary>
         internal static string InstructionContent_a32d6a19a1c647fdad951a6e58e92212 {
             get {
@@ -174,15 +201,6 @@ namespace ElementLab.Drugscreening.Client.Tests {
         internal static string ListConcepts {
             get {
                 return ResourceManager.GetString("ListConcepts", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [{&quot;Type&quot;: &quot;Type1&quot;,&quot;Name&quot;: &quot;Название1&quot;},{&quot;Type&quot;: &quot;Type2&quot;,&quot;Name&quot;: &quot;Название2&quot;}].
-        /// </summary>
-        internal static string ListConceptTypes {
-            get {
-                return ResourceManager.GetString("ListConceptTypes", resourceCulture);
             }
         }
         

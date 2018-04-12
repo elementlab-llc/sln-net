@@ -51,6 +51,7 @@
     <Compile Include="Drugscreening\Contracts\CompetitionPeriod.cs" />
     <Compile Include="Drugscreening\Contracts\Concept.cs" />
     <Compile Include="Drugscreening\Contracts\ConceptInfo.cs" />
+    <Compile Include="Drugscreening\Contracts\ListConceptsResult.cs" />
     <Compile Include="Drugscreening\Contracts\ConceptType.cs" />
     <Compile Include="Drugscreening\Contracts\Condition.cs" />
     <Compile Include="Drugscreening\Contracts\Contraindication.cs" />

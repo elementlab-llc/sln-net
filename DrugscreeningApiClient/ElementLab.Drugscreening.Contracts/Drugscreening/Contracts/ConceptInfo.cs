@@ -9,6 +9,7 @@
 // WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 // **********************************************************************************************/
 // 
+
 namespace ElementLab.Drugscreening.Contracts
 {
     /// <summary>
@@ -17,18 +18,8 @@ namespace ElementLab.Drugscreening.Contracts
     /// <summary lang="en">
     /// Description of the concept
     /// </summary>
-    
     public class ConceptInfo : Concept
     {
-        /// <summary>
-        /// Системный идентификатор концепта.
-        /// </summary>
-        /// <summary lang="en">
-        /// Internal identifier of the concept.
-        /// </summary>
-        
-        public int UniqueId { get; set; }
-
         /// <summary>
         /// Адрес ресурса, обратившись к которому можно получить описание этого концепта.
         /// </summary>

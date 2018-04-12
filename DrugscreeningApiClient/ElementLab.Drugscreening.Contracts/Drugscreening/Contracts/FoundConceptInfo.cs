@@ -27,7 +27,6 @@ namespace ElementLab.Drugscreening.Contracts
         /// <summary lang="en">
         /// Name of the concept for displaying in picklist.
         /// </summary>
-        
         public string DisplayName { get; set; }
 
         /// <summary>
@@ -37,7 +36,6 @@ namespace ElementLab.Drugscreening.Contracts
         /// <summary lang="en">
         /// Similarity rank for the concept. Higher value - higher similarity.
         /// </summary>
-        
         public double Score { get; set; }
     }
 }
